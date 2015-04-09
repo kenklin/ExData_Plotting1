@@ -1,3 +1,5 @@
+# https://class.coursera.org/exdata-013/human_grading/view/courses/973507/assessments/3/submissions
+
 plot1.read <- function(fn) {
   df <- read.csv(fn, sep=";", stringsAsFactors=FALSE)
   return(df)
@@ -31,7 +33,16 @@ plot1.hist <- function(tbl) {
                  col="red"))
 }
 
+plot1.save <- function(fn) {
+  dev.copy(png, file=fn)
+  dev.off()
+}
+
 #setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
-#df <- plot1.read("data/household_power_consumption.txt")
+input <- "data/household_power_consumption.txt"
+output <- "plot1.png"
+
+df <- plot1.read(input)
 tbl <- plot1.tidy(df)
 plot1.hist(tbl)
+plot1.save(output)
