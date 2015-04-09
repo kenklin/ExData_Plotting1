@@ -10,8 +10,11 @@ plot2.tidy <- function(df) {
   tbl <- tbl_df(df)
   
   # We will only be using data from the dates 2007-02-01 and 2007-02-02.
-  tbl$Date <- as.Date(tbl$Date, "%d/%m/%Y")
-  tbl <- filter(tbl, Date >= "2007-02-01" & Date <= "2007-02-02")
+  tbl$DateObj <- as.Date(tbl$Date, "%d/%m/%Y")
+  tbl <- filter(tbl, DateObj >= "2007-02-01" & DateObj <= "2007-02-02")
+  
+  # Create new DateTime column
+  tbl$DateTime <- strptime(paste(tbl$Date, tbl$Time), "%d/%m/%Y %H:%M:%S")
   
   # Coerce remaining variables
   tbl$Global_active_power   <- as.numeric(tbl$Global_active_power)
@@ -25,12 +28,11 @@ plot2.tidy <- function(df) {
   return(tbl)
 }
 
-plot2.hist <- function(tbl) {
-  with(tbl, hist(Global_active_power, 
-                 main="Global Active Power",
-                 xlab="Global Active Power (kilowatts)",
-                 ylab="Frequency",
-                 col="red"))
+plot2.plot <- function(tbl) {
+  with(tbl, plot(DateTime, Global_active_power,
+                 type="l",
+                 ylab="Global Active Power (kilowatts)",
+                 xlab=""))
 }
 
 plot2.save <- function(fn) {
@@ -38,11 +40,11 @@ plot2.save <- function(fn) {
   dev.off()
 }
 
-#setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
+setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
 input <- "data/household_power_consumption.txt"
 output <- "plot2.png"
 
 df <- plot2.read(input)
 tbl <- plot2.tidy(df)
-plot2.hist(tbl)
+plot2.plot(tbl)
 plot2.save(output)
