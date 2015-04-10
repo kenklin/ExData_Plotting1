@@ -29,15 +29,20 @@ plot3.tidy <- function(df) {
 }
 
 plot3.plot <- function(tbl) {
-  with(tbl, plot(DateTime, Global_active_power,
-                 type="l",
-                 ylab="Global Active Power (kilowatts)",
+  with(tbl, plot(DateTime, Sub_metering_1,
+                 type="l", col="black",
+                 ylab="Energy sub metering",
                  xlab=""))
-}
-
-plot3.save <- function(fn) {
-  dev.copy(png, file=fn)
-  dev.off()
+  with(tbl, lines(DateTime, Sub_metering_2,
+                  type="l", col="red"))
+  with(tbl, lines(DateTime, Sub_metering_3,
+                  type="l", col="blue"))
+  
+  legend("topright", 
+         legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+         lty=c(1, 1, 1), # gives the legend appropriate symbols (lines)
+         lwd=c(2.5, 2.5, 2.5), cex=0.75,
+         col=c("black", "red", "blue")) 
 }
 
 setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
@@ -46,5 +51,8 @@ output <- "plot3.png"
 
 df <- plot3.read(input)
 tbl <- plot3.tidy(df)
+# To avoid screen to png copy anomolies, write directly to png per ...
+# https://class.coursera.org/exdata-013/forum/thread?thread_id=14
+png(output)
 plot3.plot(tbl)
-plot3.save(output)
+dev.off()
