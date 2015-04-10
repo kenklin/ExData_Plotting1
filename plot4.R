@@ -73,7 +73,7 @@ plot4.main <- function() {
   output <- "plot4.png"
   
   # Read, filter, and tidy into tbl
-#  df <- plot4.read(input)
+  df <- plot4.read(input)
   tbl <- plot4.tidy(df)
   
   # To avoid screen to png copy anomolies, write directly to png per ...
