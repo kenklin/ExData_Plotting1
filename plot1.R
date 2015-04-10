@@ -33,16 +33,21 @@ plot1.hist <- function(tbl) {
                  col="red"))
 }
 
-plot1.save <- function(fn) {
-  dev.copy(png, file=fn)
+plot1.main <- function() {
+  # Set environment
+  setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
+  input <- "data/household_power_consumption.txt"
+  output <- "plot1.png"
+  
+  # Read, filter, and tidy into tbl
+  df <- plot1.read(input)
+  tbl <- plot1.tidy(df)
+
+  # To avoid screen to png copy anomolies, write directly to png per ...
+  # https://class.coursera.org/exdata-013/forum/thread?thread_id=14
+  png(output, width=480, height=480)
+  plot1.hist(tbl)
   dev.off()
 }
 
-#setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
-input <- "data/household_power_consumption.txt"
-output <- "plot1.png"
-
-df <- plot1.read(input)
-tbl <- plot1.tidy(df)
-plot1.hist(tbl)
-plot1.save(output)
+plot1.main()

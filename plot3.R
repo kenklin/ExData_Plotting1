@@ -45,14 +45,21 @@ plot3.plot <- function(tbl) {
          col=c("black", "red", "blue")) 
 }
 
-setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
-input <- "data/household_power_consumption.txt"
-output <- "plot3.png"
+plot3.main <- function() {
+  # Set environment
+  setwd("/Users/klin/Documents/coursera/exdata-013/ExData_Plotting1")
+  input <- "data/household_power_consumption.txt"
+  output <- "plot3.png"
 
-df <- plot3.read(input)
-tbl <- plot3.tidy(df)
-# To avoid screen to png copy anomolies, write directly to png per ...
-# https://class.coursera.org/exdata-013/forum/thread?thread_id=14
-png(output)
-plot3.plot(tbl)
-dev.off()
+  # Read, filter, and tidy into tbl
+  df <- plot3.read(input)
+  tbl <- plot3.tidy(df)
+  
+  # To avoid screen to png copy anomolies, write directly to png per ...
+  # https://class.coursera.org/exdata-013/forum/thread?thread_id=14
+  png(output, width=480, height=480)
+  plot3.plot(tbl)
+  dev.off()
+}
+
+plot3.main()
