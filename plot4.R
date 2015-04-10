@@ -28,14 +28,39 @@ plot4.tidy <- function(df) {
   return(tbl)
 }
 
-plot4Voltage.plot <- function(tbl) {
+plot4GlobalAveragePower <- function(tbl) {
+  with(tbl, plot(DateTime, Global_active_power,
+                 type="l",
+                 ylab="Global Active Power",
+                 xlab=""))
+}
+
+plot4Voltage <- function(tbl) {
   with(tbl, plot(DateTime, Voltage,
                  type="l",
                  ylab="Voltage",
                  xlab="datetime"))
 }
 
-plot4GlobalReactivePower.plot <- function(tbl) {
+plot4SubMeteringNoLegendBox <- function(tbl) {
+  with(tbl, plot(DateTime, Sub_metering_1,
+                 type="l", col="black",
+                 ylab="Energy sub metering",
+                 xlab=""))
+  with(tbl, lines(DateTime, Sub_metering_2,
+                  type="l", col="red"))
+  with(tbl, lines(DateTime, Sub_metering_3,
+                  type="l", col="blue"))
+  
+  legend("topright", 
+         legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),
+         lty=c(1, 1, 1), # gives the legend appropriate symbols (lines)
+         lwd=c(2.5, 2.5, 2.5), cex=0.75,
+         col=c("black", "red", "blue"),
+         bty="n")   # No box
+}
+
+plot4GlobalReactivePower <- function(tbl) {
   with(tbl, plot(DateTime, Global_reactive_power,
                  type="l",
                  xlab="datetime"))
@@ -56,10 +81,10 @@ plot4.main <- function() {
   png(output, width=480, height=480)
   par(mfrow = c(2, 2))
   with(tbl, {
-    plot2.plot(tbl)             # plot2.R must have already been sourced!!!
-    plot4Voltage.plot(tbl)
-    plot3.plot(tbl)             # plot3.R must have already been sourced!!!
-    plot4GlobalReactivePower.plot(tbl)
+    plot4GlobalAveragePower(tbl)
+    plot4Voltage(tbl)
+    plot4SubMeteringNoLegendBox(tbl)
+    plot4GlobalReactivePower(tbl)
   })
   dev.off()
 }
